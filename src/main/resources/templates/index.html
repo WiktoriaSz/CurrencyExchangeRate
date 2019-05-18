@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Currency Exchange Visualisation</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+    <form action="/display" method="get" th:object="${currencyData}">
+        Select exchange currencies
+        <div class="d1">
+            <span class="txt">From: </span>
+            <label>
+                <select name="choice1" class="list">
+                    <option value="NONE">Select</option>
+                    <option th:each="entry : ${currencyData.getFrom().entrySet()}" th:value="${entry.key}"
+                            th:text="${entry.key}" th:title="${entry.value}">
+                </select>
+            </label>
+            <span class="txt">To: </span>
+            <label>
+                <select name="choice2" class="list">
+                    <option value="NONE">Select</option>
+                    <option th:each="entry : ${currencyData.getTo().entrySet()}" th:value="${entry.key}"
+                            th:text="${entry.key}">
+                </select>
+            </label>
+        </div>
+        <!--        <div class="d2">-->
+        <!--            <h3><span class="txt">Real-time exchange rate: </span><span class="info" th:text="${realtime}"></span></h3>-->
+        <!--        </div>-->
+    </form>
+</div>
+
+</body>
+</html>

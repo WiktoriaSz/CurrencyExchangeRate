@@ -1,0 +1,53 @@
+body {
+    background-color: white;
+    background-attachment: fixed;
+}
+
+form {
+    background-color: white;
+    border: 1px solid rgb(168, 205, 240);
+    box-shadow: 2px 4px rgba(38, 38, 38, 0.3);
+    border-radius: 10px;
+    text-align: center;
+    font-family: Helvetica;
+    font-weight: bold;
+    margin: auto;
+    padding-top: 4%;
+    position: absolute;
+    top: 4%;
+    right: 0;
+    bottom: 4%;
+    left: 0;
+    width: 60%;
+    height: auto;
+    padding-right: 50px;
+    padding-left: 50px;
+}
+
+div.container form div.d1 span.txt,
+div.container form div.d2 span.txt{
+    color: rgba(54, 54, 54, 0.4);
+}
+
+div.container form div.d1 select.list{
+
+}
+
+#button {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 2px solid rgb(75, 170, 240);
+    /*border-radius: 5px;*/
+    background-color: rgba(69, 114, 240, 0.4);
+    color: rgba(54, 54, 54, 0.7);
+    font-family: Helvetica;
+    box-shadow: 1px 2px rgb(75, 170, 240);
+    padding: 6px 10px;
+    text-decoration: none;
+    transition-duration: 0.4s;
+}
+
+#button:hover {
+    background-color: rgb(75, 170, 240);
+    color: #ffffff;
+}
