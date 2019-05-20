@@ -28,12 +28,12 @@ public class HomeController {
     @GetMapping("/")
     public String showMain(Model model) {
         model.addAttribute("currencyData", currencyData);
-        System.out.println("\n\n\n" + "choice1 first method: " + currencyData.getChoice1() + "\n\n\n");
-
         return "index";
+
+        // TODO: jak zrobić, żeby nic nie wyświetlało na początku, a potem wyświetlało wyniki metod get choice
     }
 
-    @PostMapping("/")
+    @PostMapping("/d")
     public String displayExchange(@ModelAttribute("currencyData") CurrencyData currencyData, ModelMap map) {
         String apiCall = "https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency="
                 + currencyData.getChoice1() + "&to_currency="
@@ -42,17 +42,24 @@ public class HomeController {
         String response = restTemplate.getForObject(
                 apiCall, String.class
         );
-        JsonParserForExchangeRate parser = new JsonParserForExchangeRate();
-        String rate = parser.parseCurrentExchangeRateJson(response);
-        map.addAttribute("realtime", rate);
-        map.addAttribute("currency", currencyData);
-        // TODO: sparsować response - wyciągnąć exchangerate i przypisać do obietu
-        System.out.println("\n\n\n" + "choice1: " + currencyData.getChoice1() + "\n\n\n");
+
+            JsonParserForExchangeRate parser = new JsonParserForExchangeRate();
+        if (currencyData.getChoice1() == null && currencyData.getChoice2() == null) {
+            return "error";
+
+//            System.out.println("\n\n\n" + "choice1: " + currencyData.getChoice1() + "\n\n\n");
 //        System.out.println("\n\n\n" + apiCall);
 //        System.out.println("\n\n\n" + response);
 //        model.addAttribute("currencyData", currencyData);
 
-        return "index";
+
+        } else {
+            map.addAttribute("currencyData", currencyData);
+            String rate = parser.parseCurrentExchangeRateJson(response);
+            map.addAttribute("realtime", rate);
+            return "index";
+        }
+
     }
 
 

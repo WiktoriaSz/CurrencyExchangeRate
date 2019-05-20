@@ -22,23 +22,31 @@ body {
     height: auto;
     padding-right: 50px;
     padding-left: 50px;
+    display: inline-block;
 }
 
 div.container div.d2 {
+    position: relative;
+    float: right;
     padding-top: 2%;
     height: 100px;
     width: 200px;
     border: 3px solid rgba(38, 47, 55, 0.28);
-    border-radius: 4px;
+    border-radius: 6px;
 
 }
 
-div.container div.d2 div.d3 .currency{
-    padding: 4px 6px;
+div.container div.d2 div.d3 .currency {
+    margin-top: 20%;
+    padding: 3px 5px;
     background-color: #dfdfdf;
     border: 1px solid rgb(168, 205, 240);
-    border-radius: 4px;
-
+    border-radius: 3px;
+    font-weight: normal;
+    font-size: 12px;
+    position: relative;
+    height: 16px;
+    width: 40px !important;
 }
 
 div.container form div.d1 span.txt,
@@ -71,18 +79,14 @@ div.container form div.d1 select.list {
 /*    color: white;*/
 /*}*/
 
-#button {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    border: 2px solid rgb(75, 170, 240);
-    /*border-radius: 5px;*/
-    background-color: rgba(69, 114, 240, 0.4);
-    color: rgba(54, 54, 54, 0.7);
-    font-family: Helvetica;
-    box-shadow: 1px 2px rgb(75, 170, 240);
-    padding: 6px 10px;
-    text-decoration: none;
+div.container2 div.button a.b {
+    padding: 6px 8px;
+    background-color: #dfdfdf;
+    border: 1px solid rgb(168, 205, 240);
+    border-radius: 4px;
     transition-duration: 0.4s;
+    text-decoration: none;
+    text-decoration-color: black;
 }
 
 #button:hover {
