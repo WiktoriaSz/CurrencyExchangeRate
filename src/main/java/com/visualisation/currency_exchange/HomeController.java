@@ -6,10 +6,13 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.TreeMap;
+import java.math.BigDecimal;
 
 
 @Controller
@@ -20,19 +23,38 @@ public class HomeController {
     @Autowired
     RestTemplate restTemplate;
 
+    // https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=USD&to_currency=JPY&apikey=VN0IF14PA3IA698G
+
     @GetMapping("/")
     public String showMain(Model model) {
         model.addAttribute("currencyData", currencyData);
-        ResponseEntity<TreeMap<String, String>> response = restTemplate.exchange(
-                "https://openexchangerates.org/api/currencies.json",
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<TreeMap<String, String>>() {
-                });
-        currencyData.setFrom(response.getBody());
-        currencyData.setTo(response.getBody());
+        System.out.println("\n\n\n" + "choice1 first method: " + currencyData.getChoice1() + "\n\n\n");
+
         return "index";
     }
+
+    @PostMapping("/")
+    public String displayExchange(@ModelAttribute("currencyData") CurrencyData currencyData, ModelMap map) {
+        String apiCall = "https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency="
+                + currencyData.getChoice1() + "&to_currency="
+                + currencyData.getChoice2() + "&apikey=VN0IF14PA3IA698G";
+
+        String response = restTemplate.getForObject(
+                apiCall, String.class
+        );
+        JsonParserForExchangeRate parser = new JsonParserForExchangeRate();
+        String rate = parser.parseCurrentExchangeRateJson(response);
+        map.addAttribute("realtime", rate);
+        map.addAttribute("currency", currencyData);
+        // TODO: sparsować response - wyciągnąć exchangerate i przypisać do obietu
+        System.out.println("\n\n\n" + "choice1: " + currencyData.getChoice1() + "\n\n\n");
+//        System.out.println("\n\n\n" + apiCall);
+//        System.out.println("\n\n\n" + response);
+//        model.addAttribute("currencyData", currencyData);
+
+        return "index";
+    }
+
 
 //    @GetMapping("/display")
 //    public String displayRepository(Model model) {

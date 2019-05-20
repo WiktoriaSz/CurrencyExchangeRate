@@ -7,32 +7,82 @@
 </head>
 <body>
 
+<!--<form method="post" th:action="@{/}" th:object="${currencyData}">-->
+<!--<form action="/display" method="get" th:object="${currencyData}">-->
+
+<!--    Select exchange currencies-->
+<!--    <span class="txt">From: </span>-->
+<!--    &lt;!&ndash;        <input type="text" th:field="*{choice1}" title="Pierwsza liczba" th:value="0"/>&ndash;&gt;-->
+<!--    <label>-->
+<!--        <select th:field="*{choice1}" class="list" th:value="Select">-->
+<!--            &lt;!&ndash;                <option value="NONE">Select</option>&ndash;&gt;-->
+<!--            <option th:each="entry : ${currencyData.getPool().entrySet()}" th:value="${entry.key}"-->
+<!--                    th:text="${entry.key}" th:title="${entry.value}">-->
+<!--        </select>-->
+<!--    </label>-->
+<!--    <span class="txt">To: </span>-->
+<!--    <label>-->
+<!--        <select th:field="*{choice2}" class="list" th:value="Select">-->
+<!--            &lt;!&ndash;                <option value="NONE">Select</option>&ndash;&gt;-->
+<!--            <option th:each="entry : ${currencyData.getPool().entrySet()}" th:value="${entry.key}"-->
+<!--                    th:text="${entry.key}">-->
+<!--        </select>-->
+<!--    </label>-->
+<!--    <input type="submit">&ndash;&gt;-->
+<!--    <div class="d2">-->
+<!--        <span class="txt">Real-time exchange rate: </span><span class="info" th:text="${realtime}"></span>-->
+<!--    </div>-->
+<!--</form>-->
+
+<!--        <input type="text" th:field="*{choice2}" title="Druga liczba" th:value="0"/>-->
+
+<!--        <p class="i2">-->
+<!--            <button type="submit" name="reset">-->
+<!--                Wyczyść-->
+<!--            </button>-->
+<!--        </p>-->
+<!--        <div class="d2">-->
+<!--            <span class="txt">Real-time exchange rate: </span><span class="info" th:text="${realtime}"></span>-->
+<!--        </div>-->
+
+<!--        <h2>Wybierz operację</h2>-->
+<!--        <p class="f2">-->
+
+<!--            <button type="submit" name="add" class="button">-->
+<!--                <i class="fa fa-plus" aria-hidden="true" title="Plus"></i>-->
+<!--            </button>-->
 <div class="container">
-    <form action="/display" method="get" th:object="${currencyData}">
+    <form action="/" method="post" th:object="${currencyData}">
         Select exchange currencies
         <div class="d1">
             <span class="txt">From: </span>
             <label>
-                <select name="choice1" class="list">
-                    <option value="NONE">Select</option>
-                    <option th:each="entry : ${currencyData.getFrom().entrySet()}" th:value="${entry.key}"
+                <select th:field="*{choice1}" class="list" th:value="Select">
+                    <option th:each="entry : ${currencyData.getPool().entrySet()}" th:value="${entry.key}"
                             th:text="${entry.key}" th:title="${entry.value}">
                 </select>
             </label>
             <span class="txt">To: </span>
             <label>
-                <select name="choice2" class="list">
-                    <option value="NONE">Select</option>
-                    <option th:each="entry : ${currencyData.getTo().entrySet()}" th:value="${entry.key}"
+                <select th:field="*{choice2}" class="list" th:value="Select">
+                    <option th:each="entry : ${currencyData.getPool().entrySet()}" th:value="${entry.key}"
                             th:text="${entry.key}">
                 </select>
             </label>
+            <input type="submit">
         </div>
-        <!--        <div class="d2">-->
-        <!--            <h3><span class="txt">Real-time exchange rate: </span><span class="info" th:text="${realtime}"></span></h3>-->
-        <!--        </div>-->
     </form>
+    <div class="d2">
+        <form>
+            <div>
+                <span class="txt">Real-time exchange rate: </span><span class="info" th:text="${realtime}"></span>
+            </div>
+            <div class="d3">
+                <span class="currency" th:text="${currency.getChoice1()}"></span>
+                <span class="currency" th:text="${currency.getChoice2()}"></span>
+            </div>
+        </form>
+    </div>
 </div>
-
 </body>
 </html>
