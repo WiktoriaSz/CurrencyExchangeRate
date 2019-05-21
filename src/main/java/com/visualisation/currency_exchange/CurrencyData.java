@@ -5,29 +5,46 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class CurrencyData {
+public class CurrencyData implements JsonRequests {
     private Map<String, String> pool = new HashMap<>();
     private String choice1;
     private String choice2;
-    private String realtime;
 
 
-    //***********************************constructors**********************************************
+    public void exchangeChoices() {
+        String temp1 = new String(choice1);
+        String temp2 = new String(choice2);
+        setChoice1(temp2);
+        setChoice2(temp1);
+    }
 
-    public CurrencyData() {
-        RestTemplate restTemplate = new RestTemplate();
+    @Override
+    public String getStringForApiCallForCurrencyExchangeData() {
+        return "https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency="
+                + getChoice1() + "&to_currency="
+                + getChoice2() + "&apikey=VN0IF14PA3IA698G";
+    }
+
+    @Override
+    public TreeMap<String, String> getAvailableCurrencyForExchange(RestTemplate restTemplate) {
         ResponseEntity<TreeMap<String, String>> response = restTemplate.exchange(
                 "https://openexchangerates.org/api/currencies.json",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<TreeMap<String, String>>() {
                 });
-        setPool(response.getBody());
+        return response.getBody();
+    }
+
+    //***********************************constructors**********************************************
+
+    public CurrencyData() {
+        RestTemplate restTemplate = new RestTemplate();
+        setPool(getAvailableCurrencyForExchange(restTemplate));
     }
 
 
@@ -58,11 +75,4 @@ public class CurrencyData {
         this.choice2 = choice2;
     }
 
-    public String getRealtime() {
-        return realtime;
-    }
-
-    public void setRealtime(String realtime) {
-        this.realtime = realtime;
-    }
 }
