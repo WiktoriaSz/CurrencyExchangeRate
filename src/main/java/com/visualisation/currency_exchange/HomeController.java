@@ -7,6 +7,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
+import java.util.List;
+
+
 @Controller
 public class HomeController {
 
@@ -20,7 +24,6 @@ public class HomeController {
         model.addAttribute("currencyData", currencyData);
         return "index";
 
-        // TODO: usunąć formFunctions.js jeśli nie potrzebny
         // TODO: poprawić css
         // TODO: wykres - zobaczyć dane - utworzyć klasy? - wykres google
         // TODO: testy
@@ -30,9 +33,16 @@ public class HomeController {
     @PostMapping(params = "get_rate", value = "/")
     public String displayExchange(@ModelAttribute("currencyData") CurrencyData currencyData, ModelMap map) {
         String apiCall = currencyData.getStringForApiCallForCurrencyExchangeData();
-        String response = restTemplate.getForObject(
-                apiCall, String.class
-        );
+        String response = restTemplate.getForObject(apiCall, String.class);
+        System.out.println("**********************************************++++++++++++++++++++++++++++++");
+        VisualisationData visualisationData = new VisualisationData();
+        String todaysData = visualisationData.getJsonCallForHourlyChanges(currencyData);
+        System.out.println(todaysData);
+//        String jsonString = restTemplate.getForObject(todaysData, String.class);
+//        if(jsonString.contains("Error Message")) {
+//            return moetoda wyświetlająca w miejscu wykresu "brak danych"
+//        }
+//        System.out.println(jsonString);
 
         if (currencyData.getChoice1() == null && currencyData.getChoice2() == null
                 || response == null) {

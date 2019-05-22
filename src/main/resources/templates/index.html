@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Currency Exchange Visualisation</title>
     <link href="style.css" rel="stylesheet" type="text/css">
-<!--    <script src="formFunctions.js" defer></script>-->
 </head>
 <body>
 
@@ -19,6 +18,7 @@
                     <p><span class="txt">From: </span>
                         <label>
                             <select th:field="*{choice1}" class="list" th:value="Select" id="sel1">
+                                <option value="NONE">Select</option>
                                 <option th:each="entry : ${currencyData.getPool().entrySet()}" th:value="${entry.key}"
                                         th:text="${entry.key}" th:title="${entry.value}">
                             </select>
@@ -26,13 +26,14 @@
                         <span class="txt">To: </span>
                         <label>
                             <select th:field="*{choice2}" class="list" th:value="Select" id="sel2"> <!--onchange="doCheck();"-->
+                                <option value="NONE">Select</option>
                                 <option th:each="entry : ${currencyData.getPool().entrySet()}" th:value="${entry.key}"
                                         th:text="${entry.key}">
                             </select>
-                            <button type="submit" name="get_rate" class="button">
-                                Submit
-                            </button>
-                        </label></p>
+                        </label>
+                    <button type="submit" name="get_rate" class="button">
+                        Submit
+                    </button></p>
                 </div>
             </div>
             <div class="d2">
@@ -41,8 +42,8 @@
                     <span class="info" th:text="${realtime}"></span>
                 </div>
                 <div class="d3">
-                    <span class="currency" th:text="${currencyData.getChoice1()}"></span>
-                    <span class="currency" th:text="${currencyData.getChoice2()}"></span>
+                    <span class="currency" th:text="${currencyData.getChoice1()}" aria-placeholder="   "></span>
+                    <span class="currency" th:text="${currencyData.getChoice2()}" aria-placeholder="   "></span>
                     <button type="submit" name="exchange" class="button">
                         <-->
                     </button>

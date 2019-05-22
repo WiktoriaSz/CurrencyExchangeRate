@@ -15,7 +15,7 @@ public class CurrencyData implements JsonRequests {
     private String choice2;
 
 
-    public void exchangeChoices() {
+    void exchangeChoices() {
         String temp1 = new String(choice1);
         String temp2 = new String(choice2);
         setChoice1(temp2);
@@ -42,7 +42,7 @@ public class CurrencyData implements JsonRequests {
 
     //***********************************constructors**********************************************
 
-    public CurrencyData() {
+    CurrencyData() {
         RestTemplate restTemplate = new RestTemplate();
         setPool(getAvailableCurrencyForExchange(restTemplate));
     }
@@ -55,7 +55,7 @@ public class CurrencyData implements JsonRequests {
         return pool;
     }
 
-    private void setPool(Map<String, String> pool) {
+    public void setPool(Map<String, String> pool) {
         this.pool = pool;
     }
 
