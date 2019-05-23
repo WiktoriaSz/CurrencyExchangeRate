@@ -15,17 +15,13 @@ public class VisualisationData {
     }
 
     // interval: 1 hour
-    // only today
     public String getJsonCallForHourlyChanges(CurrencyData currencyData) {
         return "https://www.alphavantage.co/query?function=FX_INTRADAY&from_symbol="
                 + currencyData.getChoice1() + "&to_symbol="
                 + currencyData.getChoice2() + "&interval=60min&apikey=VN0IF14PA3IA698G";
     }
 
-//    https://www.alphavantage.co/query?function=FX_INTRADAY&from_symbol=EUR&to_symbol=USD&interval=60min&apikey=VN0IF14PA3IA698G
-
     // interval: 1 day
-    // only this month
     public String getJsonCallForDailyChanges(CurrencyData currencyData) {
         return "https://www.alphavantage.co/query?function=FX_DAILY&from_symbol="
                 + currencyData.getChoice1() + "&to_symbol="
@@ -33,7 +29,6 @@ public class VisualisationData {
     }
 
     // interval 1 week
-    // only this year
     public String getJsonCallForWeeklyChanges(CurrencyData currencyData) {
         return "https://www.alphavantage.co/query?function=FX_WEEKLY&from_symbol="
                 + currencyData.getChoice1() + "&to_symbol="
@@ -41,7 +36,6 @@ public class VisualisationData {
     }
 
     // interval 1 month
-    // only a year
     public String getJsonCallForMontlhyChanges(CurrencyData currencyData) {
         return "https://www.alphavantage.co/query?function=FX_MONTHLY&from_symbol="
                 + currencyData.getChoice1() + "&to_symbol="

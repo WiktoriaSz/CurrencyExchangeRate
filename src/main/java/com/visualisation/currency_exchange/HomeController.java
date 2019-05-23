@@ -24,9 +24,10 @@ public class HomeController {
         model.addAttribute("currencyData", currencyData);
         return "index";
 
-        // TODO: poprawić css
+        // TODO: poprawić css - układ, buttons, error page, realtime box
         // TODO: wykres - zobaczyć dane - utworzyć klasy? - wykres google
-        // TODO: testy
+        // TODO: usunąć niepotrzebne klasy, komentarze, importy, interfejsy, dodatkowe foldery?
+        // TODO: unit testy + resttemplate
         // TODO: heroku
     }
 
