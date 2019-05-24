@@ -8,7 +8,7 @@
     <!---------------------------------------------- 4 ---------------------------------------------------->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" th:inline="javascript">
-        google.charts.load('current', {'packages':['corechart']});
+        google.charts.load('current', {'packages': ['corechart']});
         google.charts.setOnLoadCallback(drawChart);
 
         function drawChart() {
@@ -20,8 +20,10 @@
             var list = [[${list}]];
             for (var i = 0; i < list.length; i++) {
                 var l = list[i];
+                var tempDate = l.date.substring(0, 10) + ' ' + l.date.substring(11, 16);
+
                 data.addRow(
-                    [l.date, l.open]
+                    [tempDate, l.open]
                 );
                 data.addRow(
                     ['', l.high]
@@ -39,24 +41,23 @@
             var options = {
                 title: 'Historical conversion rate from ' + choice1 + ' to ' + choice2,
                 curveType: 'function',
-                legend: { position: 'top' },
-                width: 920,
-                height: 400,
-                hAxis: {
-                    format: 'dd-mm-yyyy HH:mm'},
+                legend: {position: 'top'},
+                hAxis: { textStyle: {fontSize: 12, color: 'gray' },
+                    allowContainerBoundaryTextCufoff: false
+                },
                 series: {
                     0: {color: 'dodgerblue', visibleInLegend: true, lineWidth: 1}
                 },
-                trendlines: {
-                    0: {
-                        type: 'linear',
-                        color: 'black',
-                        lineWidth: 2,
-                        opacity: 0.3,
-                        showR2: true,
-                        visibleInLegend: true
-                    }
-                }
+                // trendlines: {
+                //     0: {
+                //         type: 'linear',
+                //         color: 'black',
+                //         lineWidth: 2,
+                //         opacity: 0.3,
+                //         showR2: true,
+                //         visibleInLegend: true
+                //     }
+                // }
             };
 
             var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
@@ -114,7 +115,8 @@
     </form>
     <!-- 5 -->
     <div id="chart_div" onchange="drawChart()">
-        <span class="message" th:text="${errorMessage}"></span>
+        <div>
+            <span class="message" th:text="${errorMessage}"></span></div>
     </div>
     <!-- 5 -->
 </div>

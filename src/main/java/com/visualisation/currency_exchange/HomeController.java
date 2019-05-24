@@ -77,7 +77,8 @@ public class HomeController {
         if(jsonString!=null && jsonString.contains("Error Message")) {
             map.addAttribute("errorMessage", "No data available for this currency pair.");
         } else if (jsonString!=null && jsonString.contains("Note")){
-            map.addAttribute("errorMessage", "Number for data access call for today was reached.");
+            map.addAttribute("errorMessage", "Number for data access call for today was reached." +
+                    "Alternatively frequency of data access was surpassed. Please try again in few seconds.");
         } else {
             ObjectMapper mapper = new ObjectMapper();
             try {
