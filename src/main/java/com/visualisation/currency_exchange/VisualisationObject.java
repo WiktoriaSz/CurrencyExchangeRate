@@ -24,9 +24,21 @@ public class VisualisationObject {
         this.close = close;
     }
 
+//    @Override
+//    public String toString() {
+//        return "{\"VisualisationObject\":{"
+//                + "\"date\":" + date
+//                + ", \"open\":\"" + open + "\""
+//                + ", \"high\":\"" + high + "\""
+//                + ", \"low\":\"" + low + "\""
+//                + ", \"close\":\"" + close + "\""
+//                + "}}";
+//    }
+
+
     @Override
     public String toString() {
-        return "VisualisationObject{" +
+        return '{' +
                 "date=" + date +
                 ", open=" + open +
                 ", high=" + high +

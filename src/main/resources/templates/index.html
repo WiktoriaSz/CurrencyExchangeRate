@@ -4,11 +4,71 @@
     <meta charset="UTF-8">
     <title>Currency Exchange Visualisation</title>
     <link href="style.css" rel="stylesheet" type="text/css">
+
+    <!---------------------------------------------- 4 ---------------------------------------------------->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" th:inline="javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Date');
+            data.addColumn('number', 'Rate');
+
+            var list = [[${list}]];
+            for (var i = 0; i < list.length; i++) {
+                var l = list[i];
+                data.addRow(
+                    [l.date, l.open]
+                );
+                data.addRow(
+                    ['', l.high]
+                );
+                data.addRow(
+                    ['', l.low]
+                );
+                data.addRow(
+                    ['', l.close]
+                );
+            }
+
+            var choice1 = [[${currencyData.getPool().get(currencyData.getChoice1())}]];
+            var choice2 = [[${currencyData.getPool().get(currencyData.getChoice2())}]];
+            var options = {
+                title: 'Historical conversion rate from ' + choice1 + ' to ' + choice2,
+                curveType: 'function',
+                legend: { position: 'top' },
+                width: 920,
+                height: 400,
+                hAxis: {
+                    format: 'dd-mm-yyyy HH:mm'},
+                series: {
+                    0: {color: 'dodgerblue', visibleInLegend: true, lineWidth: 1}
+                },
+                trendlines: {
+                    0: {
+                        type: 'linear',
+                        color: 'black',
+                        lineWidth: 2,
+                        opacity: 0.3,
+                        showR2: true,
+                        visibleInLegend: true
+                    }
+                }
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+            chart.draw(data, options);
+        }
+    </script>
+    <!------------------------------------------ 4 ------------------------------------------------------->
+
 </head>
 <body>
-
 <!--<form method="post" th:action="@{/}" th:object="${currencyData}">-->
-
 <div class="container">
     <form th:action="@{/}" method="post" th:object="${currencyData}">
         <div class="d1">
@@ -18,7 +78,7 @@
                     <p><span class="txt">From: </span>
                         <label>
                             <select th:field="*{choice1}" class="list" th:value="Select" id="sel1">
-                                <option value="NONE">Select</option>
+                                <option value="">Select</option>
                                 <option th:each="entry : ${currencyData.getPool().entrySet()}" th:value="${entry.key}"
                                         th:text="${entry.key}" th:title="${entry.value}">
                             </select>
@@ -26,7 +86,7 @@
                         <span class="txt">To: </span>
                         <label>
                             <select th:field="*{choice2}" class="list" th:value="Select" id="sel2">
-                                <option value="NONE">Select</option>
+                                <option value="">Select</option>
                                 <option th:each="entry : ${currencyData.getPool().entrySet()}" th:value="${entry.key}"
                                         th:text="${entry.key}">
                             </select>
@@ -40,18 +100,23 @@
             <div class="d2">
                 <div>
                     <span class="txt">Real-time exchange rate: </span>
-                    <span class="info" th:text="${realtime}"></span>
+                    <div class="real"><span class="info" th:text="${realtime}"></span></div>
                 </div>
                 <div class="d3">
-                    <span class="currency" th:text="${currencyData.getChoice1()}" aria-placeholder="   "></span>
-                    <span class="currency" th:text="${currencyData.getChoice2()}" aria-placeholder="   "></span>
+                    <span class="currency" th:text="${currencyData.getChoice1()}"></span>
+                    <span class="currency" th:text="${currencyData.getChoice2()}"></span>
                     <button type="submit" name="exchange" class="button">
-                        <-->
+                        <=>
                     </button>
                 </div>
             </div>
         </div>
     </form>
+    <!-- 5 -->
+    <div id="chart_div" onchange="drawChart()">
+        <span class="message" th:text="${errorMessage}"></span>
+    </div>
+    <!-- 5 -->
 </div>
 </body>
 </html>

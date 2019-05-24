@@ -3,6 +3,7 @@ body {
     background-attachment: fixed;
 }
 
+.container-error,
 .container {
     background-color: white;
     border: 1px solid rgb(168, 205, 240);
@@ -25,19 +26,66 @@ body {
     display: inline-block;
 }
 
+div.container div#chart_div{
+    float: bottom;
+    margin-right: 10%;
+    margin-left: -10%;
+    margin-top: 15%;
+    margin-bottom: 10%;
+    padding-right: 15%;
+    padding-left: -10%;
+    padding-bottom: 10%;
+}
+
+div.container div.d1 div.d1-a div {
+    margin-left: 20%;
+    float: left;
+}
+
+div.container div.d2 div.d3 button.button,
+div.container div.d1 div.d1-a div button.button {
+    padding: 3px 5px;
+    background-color: #dfdfdf;
+    border: 1px solid rgb(168, 205, 240);
+    border-radius: 3px;
+    transition-duration: 0.7s;
+    color: black;
+    font-weight: bold;
+}
+
+div.container div.d1 div.d1-a div button.button {
+    padding: 6px 8px;
+    font-weight: normal;
+}
+
+div.container div.d2 div.d3 button.button:hover,
+div.container div.d1 div.d1-a div button.button:hover {
+    background-color: dodgerblue;
+    color: #ffffff;
+}
+
 div.container div.d2 {
     position: relative;
     float: right;
     padding-top: 2%;
-    height: 100px;
-    width: 200px;
+    height: 80px;
+    width: 180px;
     border: 3px solid rgba(38, 47, 55, 0.28);
     border-radius: 6px;
+    font-size: smaller;
+}
 
+div.container div.d2 div div.real {
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+div.container div.d2 div.d3 {
+    margin-top: 5%;
+    margin-bottom: 10%;
 }
 
 div.container div.d2 div.d3 .currency {
-    margin-top: 20%;
     padding: 3px 5px;
     background-color: #dfdfdf;
     border: 1px solid rgb(168, 205, 240);
@@ -65,31 +113,24 @@ div.container form div.d1 select.list {
     z-index: 3;
 }
 
-/*div.container form div.d1 select.list.select-items {*/
-/*    position: absolute;*/
-/*    background-color: red;*/
-/*    top: 100%;*/
-/*    left: 0;*/
-/*    right: 0;*/
-/*    z-index: 99;*/
-/*}*/
-
-/*div.container form div.d1 select.list :hover {*/
-/*    background-color: rgb(168, 205, 240);*/
-/*    color: white;*/
-/*}*/
-
-div.container2 div.button a.b {
+div.container-error div.button a.b {
     padding: 6px 8px;
     background-color: #dfdfdf;
     border: 1px solid rgb(168, 205, 240);
     border-radius: 4px;
-    transition-duration: 0.4s;
+    transition-duration: 0.7s;
     text-decoration: none;
-    text-decoration-color: black;
+    color: black;
+    font-weight: normal;
 }
 
-#button:hover {
-    background-color: rgb(75, 170, 240);
+div.container-error div.button a.b:hover {
+    background-color: dodgerblue;
     color: #ffffff;
 }
+
+div.container-error div.text {
+    margin-top: 10%;
+    margin-bottom: 10%;
+}
+

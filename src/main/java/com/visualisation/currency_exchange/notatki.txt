@@ -1,0 +1,46 @@
+google.charts.load('current', {'packages': ['line']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Date');
+            data.addColumn('number', 'Open');
+            data.addColumn('number', 'High');
+            data.addColumn('number', 'Low');
+            data.addColumn('number', 'Close');
+
+            var list = [[${list}]];
+            for (var i = 0; i < list.length; i++) {
+                var l = list[i];
+                data.addRow(
+                    [l.date, l.open, l.high, l.low, l.close]
+                );
+            }
+
+            var choice1 = [[${currencyData.getChoice1()}]];
+            var choice2 = [[${currencyData.getChoice2()}]];
+            var options = {
+                    chart: {
+                        title: 'Historical conversion rate',
+                        subtitle: 'from ' + choice1 + ' to ' + choice2
+                    },
+                hAxis: {format: 'decimal'},
+                trendlines: {
+                    0: {
+                        type: 'linear',
+                        color: 'black',
+                        lineWidth: 3,
+                        opacity: 0.3,
+                        showR2: true,
+                        visibleInLegend: true
+                    }
+                },
+
+                    width: 700,
+                    height: 380
+            };
+
+            var chart = new google.charts.Line(document.getElementById('chart_div'));
+            chart.draw(data, google.charts.Line.convertOptions(options));
+        }

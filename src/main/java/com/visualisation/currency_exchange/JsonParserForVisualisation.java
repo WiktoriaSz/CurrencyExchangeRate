@@ -640,7 +640,10 @@ public class JsonParserForVisualisation {
 
     }
 
-    private String getJsonStringWithoutRoot(String json) {
+    public JsonParserForVisualisation() {
+    }
+
+    public String getJsonStringWithoutRoot(String json) {
         int i = json.indexOf(")\":");
         return json.substring(i + 4, json.length() - 2);
     }
@@ -668,7 +671,7 @@ public class JsonParserForVisualisation {
         return list;
     }
 
-    private Date dateFormatter(String date) throws ParseException {
+    public Date dateFormatter(String date) throws ParseException {
         SimpleDateFormat formatter;
         if (date.contains(" ")) {
             formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
