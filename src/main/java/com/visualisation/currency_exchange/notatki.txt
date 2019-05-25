@@ -44,3 +44,16 @@ google.charts.load('current', {'packages': ['line']});
             var chart = new google.charts.Line(document.getElementById('chart_div'));
             chart.draw(data, google.charts.Line.convertOptions(options));
         }
+
+
+
+
+
+
+
+
+
+        var choice1 = [[${currencyData.getPool().get(currencyData.getChoice1())}]];
+                    var choice2 = [[${currencyData.getPool().get(currencyData.getChoice2())}]];
+                    var options = {
+                        title: 'Historical conversion rate from ' + choice1 + ' to ' + choice2,

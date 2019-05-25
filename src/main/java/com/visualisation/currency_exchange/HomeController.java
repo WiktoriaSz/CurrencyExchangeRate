@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -20,6 +18,8 @@ public class HomeController {
     private CurrencyData currencyData = new CurrencyData();
     private JsonParserForExchangeRate parseRate = new JsonParserForExchangeRate();
     private JsonParserForVisualisation parseVisual = new JsonParserForVisualisation();
+    private VisualisationData visualisationData = new VisualisationData();
+
 
     @Autowired
     RestTemplate restTemplate;
@@ -27,11 +27,12 @@ public class HomeController {
     @GetMapping("/")
     public String showMain(Model map) {
         map.addAttribute("currencyData", currencyData);
+        map.addAttribute("choice1", " ");
+        map.addAttribute("choice2", " ");
         map.addAttribute("realtime", " ");
-//        List<VisualisationObject> list = new ArrayList<>();                                  // 3.
-//        map.addAttribute("list", list);
         return "index";
     }
+    // TODO: przerzucić realtime do pola)
     // TODO: poprawić css - układ, buttons, realtime box (error page ok)
     // TODO: wykres - zobaczyć dane - utworzyć klasy? - wykres google
     // TODO: usunąć niepotrzebne klasy, komentarze, importy, interfejsy, dodatkowe foldery?
@@ -42,10 +43,11 @@ public class HomeController {
     @PostMapping(params = "get_rate", value = "/")
     public String displayExchange(@ModelAttribute("currencyData") CurrencyData currencyData, ModelMap map) {
         map.addAttribute("currencyData", currencyData);
+        map.addAttribute("choice1", currencyData.getPool().get(currencyData.getChoice1()));
+        map.addAttribute("choice2", currencyData.getPool().get(currencyData.getChoice2()));
+        String json = currencyData.getStringForApiCallForCurrencyExchangeData();
 
-        String apiCall = currencyData.getStringForApiCallForCurrencyExchangeData();
-        String response = restTemplate.getForObject(apiCall, String.class);
-//        if (response == null) {
+        String response = restTemplate.getForObject(json, String.class);
         if (currencyData.getChoice1().isEmpty() || currencyData.getChoice2().isEmpty()
                 || response.contains("error")) {
             return "error";
@@ -67,24 +69,24 @@ public class HomeController {
     private String displayChart(@ModelAttribute CurrencyData currencyData, ModelMap map,
                                 String parseCurrentExchangeRateJson) {
         map.addAttribute("currencyData", currencyData);
+        map.addAttribute("choice1", currencyData.getPool().get(currencyData.getChoice1()));
+        map.addAttribute("choice2", currencyData.getPool().get(currencyData.getChoice2()));
         map.addAttribute("realtime", parseCurrentExchangeRateJson);
-        System.out.println("**********************************************++++++++++++++++++++++++++++++");
-        VisualisationData visualisationData = new VisualisationData();
-        String todaysData = visualisationData.getJsonCallForHourlyChanges(currencyData);
-        System.out.println(todaysData);
-        String jsonString = restTemplate.getForObject(todaysData, String.class);
-//                System.out.println(jsonString);
-        if(jsonString!=null && jsonString.contains("Error Message")) {
+        String call = visualisationData.getJsonCallForHourlyChanges(currencyData);
+        System.out.println(call);
+        String  jsonString = restTemplate.getForObject(call, String.class);
+        if (jsonString != null && jsonString.contains("Error Message")) {
             map.addAttribute("errorMessage", "No data available for this currency pair.");
-        } else if (jsonString!=null && jsonString.contains("Note")){
+        } else if (jsonString != null && jsonString.contains("Note")) {
             map.addAttribute("errorMessage", "Number for data access call for today was reached." +
                     "Alternatively frequency of data access was surpassed. Please try again in few seconds.");
         } else {
+//            return showChartByHour(currencyData, parseCurrentExchangeRateJson, map);
+            // 7
             ObjectMapper mapper = new ObjectMapper();
             try {
                 List<VisualisationObject> list = parseVisual.getVisualisationObjectFromJsonString(jsonString, mapper);
                 System.out.println(list.get(0));
-//                String list = parseVisual.getJsonStringWithoutRoot(jsonString);
                 map.addAttribute("list", list);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -94,5 +96,21 @@ public class HomeController {
         return "index";
     }
 
+//    @PostMapping(params = "hour", value = "/")                   // 8 - powtarzany - możliwe, że metoda hour będzie zwracała główną
+//    public String showChartByHour(@ModelAttribute("currencyData") CurrencyData currencyData,
+//                                  String realtime, ModelMap map){
+//        map.addAttribute("currencyData", currencyData);
+//        map.addAttribute("realtime", realtime);
+//        String jsonString = visualisationData.getJsonCallForHourlyChanges(currencyData);
+//        ObjectMapper mapper = new ObjectMapper();
+//        try {
+//            List<VisualisationObject> list = parseVisual.getVisualisationObjectFromJsonString(jsonString, mapper);
+//            System.out.println(list.get(0));
+//            map.addAttribute("list", list);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return "index";
+//    }
 
 }

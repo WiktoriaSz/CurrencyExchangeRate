@@ -24,9 +24,12 @@ public class CurrencyData implements JsonRequests {
 
     @Override
     public String getStringForApiCallForCurrencyExchangeData() {
-        return "https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency="
+//        RestTemplate restTemplate = new RestTemplate();
+        String call = "https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency="
                 + getChoice1() + "&to_currency="
                 + getChoice2() + "&apikey=VN0IF14PA3IA698G";
+        return call;
+//        return restTemplate.getForObject(call, String.class);
     }
 
     @Override
