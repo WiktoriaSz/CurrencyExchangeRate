@@ -36,6 +36,10 @@ div.container div#chart_div {
     background-color: rgba(255, 255, 255, 0.0);
 }
 
+div.container div div.message{
+    padding-top: 8%;
+}
+
 div.container div.d1 div.d1-a div {
     margin-left: 20%;
     float: left;

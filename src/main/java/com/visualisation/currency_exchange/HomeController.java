@@ -28,9 +28,6 @@ public class HomeController {
     @GetMapping("/")
     public String showMain(Model map) {
         map.addAttribute("currencyData", currencyData);
-        map.addAttribute("choice1", "Select");
-        map.addAttribute("choice2", "Select");
-        map.addAttribute("realtime", " ");
         return "index";
     }
 
@@ -67,17 +64,15 @@ public class HomeController {
         map.addAttribute("realtime", parseCurrentExchangeRateJson);
         String call = visualisationData.getJsonCallForHourlyChanges(currencyData);
         String jsonString = restTemplate.getForObject(call, String.class);
-        System.out.println(jsonString);
-        System.out.println(call);
         if (jsonString.contains("Error Message")) {
             map.addAttribute("errorMessage",
-                    "No historical data available for this currency pair: \n" +
+                    "No historical data available to create a chart for this currency pair: " +
                             currencyData.getPool().get(currencyData.getChoice1()) + ", " +
                             currencyData.getPool().get(currencyData.getChoice2()));
         } else if (jsonString.contains("Note")) {
             map.addAttribute("errorMessage",
                     "Number for data access call for today was reached. " +
-                            "\nAlternatively frequency of data access was surpassed. Please try again in a few seconds.");
+                            "Alternatively frequency of data access was surpassed. Please try again in a few seconds.");
         } else {
             ObjectMapper mapper = new ObjectMapper();
             try {
