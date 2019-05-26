@@ -41,6 +41,7 @@ public class HomeController {
         map.addAttribute("choice2", currencyData.getPool().get(currencyData.getChoice2()));
         String json = currencyData.getStringForApiCallForCurrencyExchangeData();
         String response = restTemplate.getForObject(json, String.class);
+
         if (currencyData.getChoice1().isEmpty() || currencyData.getChoice2().isEmpty()
                 || response.contains("error")) {
             return "error";
@@ -66,12 +67,14 @@ public class HomeController {
         map.addAttribute("realtime", parseCurrentExchangeRateJson);
         String call = visualisationData.getJsonCallForHourlyChanges(currencyData);
         String jsonString = restTemplate.getForObject(call, String.class);
-        if (jsonString != null && jsonString.contains("Error Message")) {
+        System.out.println(jsonString);
+        System.out.println(call);
+        if (jsonString.contains("Error Message")) {
             map.addAttribute("errorMessage",
-                    "No data available for this currency pair: \n" +
+                    "No historical data available for this currency pair: \n" +
                             currencyData.getPool().get(currencyData.getChoice1()) + ", " +
                             currencyData.getPool().get(currencyData.getChoice2()));
-        } else if (jsonString != null && jsonString.contains("Note")) {
+        } else if (jsonString.contains("Note")) {
             map.addAttribute("errorMessage",
                     "Number for data access call for today was reached. " +
                             "\nAlternatively frequency of data access was surpassed. Please try again in a few seconds.");
