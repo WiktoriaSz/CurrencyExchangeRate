@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class CurrencyData implements JsonRequests {
+public class CurrencyData {
     private Map<String, String> pool = new HashMap<>();
     private String choice1;
     private String choice2;
@@ -22,17 +22,13 @@ public class CurrencyData implements JsonRequests {
         setChoice2(temp1);
     }
 
-    @Override
     public String getStringForApiCallForCurrencyExchangeData() {
-//        RestTemplate restTemplate = new RestTemplate();
         String call = "https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency="
                 + getChoice1() + "&to_currency="
                 + getChoice2() + "&apikey=VN0IF14PA3IA698G";
         return call;
-//        return restTemplate.getForObject(call, String.class);
     }
 
-    @Override
     public TreeMap<String, String> getAvailableCurrencyForExchange(RestTemplate restTemplate) {
         ResponseEntity<TreeMap<String, String>> response = restTemplate.exchange(
                 "https://openexchangerates.org/api/currencies.json",

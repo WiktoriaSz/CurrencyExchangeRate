@@ -2,7 +2,6 @@ package com.visualisation.currency_exchange;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-
 import java.util.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -12,6 +11,8 @@ public class VisualisationObject {
     Double high;
     Double low;
     Double close;
+
+    //***********************************constructors**********************************************
 
     public VisualisationObject() {
     }
@@ -24,16 +25,7 @@ public class VisualisationObject {
         this.close = close;
     }
 
-//    @Override
-//    public String toString() {
-//        return "{\"VisualisationObject\":{"
-//                + "\"date\":" + date
-//                + ", \"open\":\"" + open + "\""
-//                + ", \"high\":\"" + high + "\""
-//                + ", \"low\":\"" + low + "\""
-//                + ", \"close\":\"" + close + "\""
-//                + "}}";
-//    }
+    //***********************************getters & setters & toString*******************************
 
 
     @Override

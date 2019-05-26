@@ -5,7 +5,7 @@
     <title>Currency Exchange Visualisation</title>
     <link href="style.css" rel="stylesheet" type="text/css">
 
-    <!---------------------------------------------- 4 ---------------------------------------------------->
+    <!---------------------------------------------- java script for chart -------------------------------------------->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" th:inline="javascript">
         google.charts.load('current', {'packages': ['corechart']});
@@ -50,12 +50,13 @@
                         color: 'black',
                         lineWidth: 1,
                         visibleInLegend: true
-                    }},
+                    }
+                },
                 hAxis: {
                     textStyle: {fontSize: 11, color: 'gray'},
                     allowContainerBoundaryTextCufoff: false
                 },
-                vAxis:{
+                vAxis: {
                     format: 'decimal'
                 },
                 series: {
@@ -68,11 +69,9 @@
             chart.draw(data, options);
         }
     </script>
-    <!------------------------------------------ 4 ------------------------------------------------------->
-
+    <!------------------------------------------------------------------------------------------------>
 </head>
 <body>
-<!--<form method="post" th:action="@{/}" th:object="${currencyData}">-->
 <div class="container">
     <form th:action="@{/}" method="post" th:object="${currencyData}">
         <div class="d1">
@@ -116,12 +115,11 @@
             </div>
         </div>
     </form>
-    <!-- 5 -->
+
     <div id="chart_div" onchange="drawChart()">
-        <div>
-            <span class="message" th:text="${errorMessage}"></span></div>
+        <div><span class="message" th:text="${errorMessage}"></span></div>
     </div>
-    <!-- 5 -->
+
 </div>
 </body>
 </html>
