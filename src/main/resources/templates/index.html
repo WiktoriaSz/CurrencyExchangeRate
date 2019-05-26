@@ -14,30 +14,28 @@
         function drawChart() {
 
             var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Date');
+            data.addColumn('date', 'Date');
             data.addColumn('number', 'Rate');
 
             var list = [[${list}]];
             for (var i = 0; i < list.length; i++) {
                 var l = list[i];
-                var year = l.date.substring(0, 4);
-                var month = l.date.substring(5, 7);
-                var day = l.date.substring(8, 10);
-                var tempDate = day + '-' + month + '-' + year + ' ' + l.date.substring(11, 16);
+                var tempDate = new Date(l.date);
 
                 data.addRow(
                     [tempDate, l.open]
                 );
                 data.addRow(
-                    ['', l.high]
+                    [tempDate, l.high]
                 );
                 data.addRow(
-                    ['', l.low]
+                    [tempDate, l.low]
                 );
                 data.addRow(
-                    ['', l.close]
+                    [tempDate, l.close]
                 );
             }
+
 
             var choice1 = [[${choice1}]];
             var choice2 = [[${choice2}]];
@@ -49,12 +47,13 @@
                     0: {
                         color: 'black',
                         lineWidth: 1,
-                        visibleInLegend: true
+                        opacity: 0.4
                     }
                 },
                 hAxis: {
                     textStyle: {fontSize: 11, color: 'gray'},
-                    allowContainerBoundaryTextCufoff: false
+                    allowContainerBoundaryTextCufoff: false,
+
                 },
                 vAxis: {
                     format: 'decimal'
@@ -65,7 +64,6 @@
             };
 
             var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-
             chart.draw(data, options);
         }
     </script>
