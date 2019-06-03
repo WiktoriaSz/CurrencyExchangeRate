@@ -43,13 +43,7 @@
                 title: 'Historical conversion rate from ' + choice1 + ' to ' + choice2,
                 curveType: 'function',
                 legend: {position: 'top'},
-                trendlines: {
-                    0: {
-                        color: 'black',
-                        lineWidth: 1,
-                        opacity: 0.4
-                    }
-                },
+                trendlines: {},
                 hAxis: {
                     textStyle: {fontSize: 11, color: 'gray'},
                     allowContainerBoundaryTextCufoff: false,
@@ -65,6 +59,32 @@
 
             var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
             chart.draw(data, options);
+
+            var trendline = document.getElementById("trendline");
+            trendline.style.display = "inline";
+
+            var click = true;
+            trendline.onclick = function () {
+                if (click) {
+                    options.trendlines = {
+                        0: {
+                            color: 'black',
+                            lineWidth: 2,
+                            opacity: 0.5
+                        }
+                    };
+                    chart.draw(data, options);
+                    trendline.style.backgroundColor = "dodgerblue";
+                    trendline.style.color = "white";
+                    click = false;
+                } else {
+                    options.trendlines = {};
+                    chart.draw(data, options);
+                    trendline.style.backgroundColor = "#dfdfdf";
+                    trendline.style.color = "black";
+                    click = true;
+                }
+            }
         }
     </script>
     <!------------------------------------------------------------------------------------------------>
@@ -113,11 +133,15 @@
             </div>
         </div>
     </form>
-
-    <div id="chart_div" onchange="drawChart()">
-        <div class="message"><span class="message" th:text="${errorMessage}"></span></div>
+    <div class="diagram">
+        <div id="chart_div" onchange="drawChart()">
+            <div class="message"><span class="message" th:text="${errorMessage}"></span></div>
+        </div>
+        <!-- 1 -->
+        <div class="trendbutton">
+            <button type="button" id="trendline">Trendline</button>
+        </div>
     </div>
-
 </div>
 </body>
 </html>

@@ -26,7 +26,7 @@ body {
     display: inline-block;
 }
 
-div.container div#chart_div {
+div.container div.diagram div#chart_div {
     width: 70%;
     height: 60%;
     position: fixed;
@@ -36,8 +36,20 @@ div.container div#chart_div {
     background-color: rgba(255, 255, 255, 0.0);
 }
 
-div.container div div.message{
+div.container div.diagram div div.message{
     padding-top: 8%;
+}
+
+div.container div.diagram div.trendbutton button#trendline{
+    padding: 4px 6px;
+    background-color: #dfdfdf;
+    border: 1px solid rgb(168, 205, 240);
+    border-radius: 3px;
+    transition-duration: 0.7s;
+    color: black;
+    font-weight: normal;
+    float: bottom;
+    display: none;
 }
 
 div.container div.d1 div.d1-a div {
