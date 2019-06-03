@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Currency Exchange Visualisation</title>
     <link href="style.css" rel="stylesheet" type="text/css">
-
+    <script src="https://kit.fontawesome.com/58254d9f47.js"></script>
     <!---------------------------------------------- java script for chart -------------------------------------------->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" th:inline="javascript">
@@ -35,7 +35,6 @@
                     [tempDate, l.close]
                 );
             }
-
 
             var choice1 = [[${choice1}]];
             var choice2 = [[${choice2}]];
@@ -124,10 +123,10 @@
                     <div class="real"><span class="info" th:text="${realtime}"></span></div>
                 </div>
                 <div class="d3">
-                    <span class="currency" th:text="${currencyData.getChoice1()}"></span>
-                    <span class="currency" th:text="${currencyData.getChoice2()}"></span>
-                    <button type="submit" name="exchange" class="button">
-                        <=>
+                    <span class="currency" th:text="${currencyData.getChoice1()}" id="currency1"></span>
+                    <span class="currency" th:text="${currencyData.getChoice2()}" id="currency2"></span>
+                    <button type="submit" class="currency" name="exchange" id="exchange">
+                        <i class="fas fa-exchange-alt"></i>
                     </button>
                 </div>
             </div>
@@ -137,7 +136,6 @@
         <div id="chart_div" onchange="drawChart()">
             <div class="message"><span class="message" th:text="${errorMessage}"></span></div>
         </div>
-        <!-- 1 -->
         <div class="trendbutton">
             <button type="button" id="trendline">Trendline</button>
         </div>
