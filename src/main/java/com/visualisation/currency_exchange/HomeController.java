@@ -18,6 +18,8 @@ public class HomeController {
     private CurrencyData currencyData = new CurrencyData();
     private JsonParserForExchangeRate parseRate = new JsonParserForExchangeRate();
     private JsonParserForVisualisation parseVisual = new JsonParserForVisualisation();
+    private String errorMessage = "Number for data access call for today was reached. " +
+            "Alternatively frequency of data access was surpassed. Please try again in a few seconds.";
 
     @Autowired
     ChartVisualisation visualisationData;
@@ -43,8 +45,9 @@ public class HomeController {
                 || response.contains("error")) {
             return "error";
         } else {
-            map.addAttribute("realtime", parseRate.parseCurrentExchangeRateJson(response));
-            return displayChart(currencyData, map, parseRate.parseCurrentExchangeRateJson(response));
+            currencyData.setRealtime(parseRate.parseCurrentExchangeRateJson(response));
+            map.addAttribute("realtime", currencyData.getRealtime());
+            return displayChart(currencyData, map);
         }
     }
 
@@ -55,24 +58,95 @@ public class HomeController {
         return displayExchange(currencyData, map);
     }
 
+    @SuppressWarnings("Duplicates")
     @PostMapping(params = "chart", value = "/")
-    private String displayChart(@ModelAttribute CurrencyData currencyData, ModelMap map,
-                                String parseCurrentExchangeRateJson) {
+    private String displayChart(@ModelAttribute CurrencyData currencyData, ModelMap map) {
         map.addAttribute("currencyData", currencyData);
         map.addAttribute("choice1", currencyData.getPool().get(currencyData.getChoice1()));
         map.addAttribute("choice2", currencyData.getPool().get(currencyData.getChoice2()));
-        map.addAttribute("realtime", parseCurrentExchangeRateJson);
+        map.addAttribute("realtime", currencyData.getRealtime());
         String call = visualisationData.getJsonCallForHourlyChanges(currencyData);
         String jsonString = restTemplate.getForObject(call, String.class);
         if (jsonString.contains("Error Message")) {
-            map.addAttribute("errorMessage",
-                    "No historical data available to create a chart for this currency pair: " +
-                            currencyData.getPool().get(currencyData.getChoice1()) + ", " +
-                            currencyData.getPool().get(currencyData.getChoice2()));
+            map.addAttribute("errorMessage", "No historical data available to create a chart for this currency pair: " +
+                    currencyData.getPool().get(currencyData.getChoice1()) + ", " +
+                    currencyData.getPool().get(currencyData.getChoice2()));
         } else if (jsonString.contains("Note")) {
-            map.addAttribute("errorMessage",
-                    "Number for data access call for today was reached. " +
-                            "Alternatively frequency of data access was surpassed. Please try again in a few seconds.");
+            map.addAttribute("errorMessage", errorMessage);
+        } else {
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                List<VisualisationObject> list = parseVisual.getVisualisationObjectFromJsonString(jsonString, mapper);
+                map.addAttribute("list", list);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return "index";
+    }
+
+    @PostMapping(params = "hour", value = "/")
+    private String displayHourlyChart(@ModelAttribute CurrencyData currencyData, ModelMap map) {
+        return displayChart(currencyData, map);
+    }
+
+    @SuppressWarnings("Duplicates")
+    @PostMapping(params = "day", value = "/")
+    private String displayDailyChart(@ModelAttribute CurrencyData currencyData, ModelMap map) {
+        map.addAttribute("currencyData", currencyData);
+        map.addAttribute("choice1", currencyData.getPool().get(currencyData.getChoice1()));
+        map.addAttribute("choice2", currencyData.getPool().get(currencyData.getChoice2()));
+        map.addAttribute("realtime", currencyData.getRealtime());
+        String call = visualisationData.getJsonCallForDailyChanges(currencyData);
+        String jsonString = restTemplate.getForObject(call, String.class);
+        if (jsonString.contains("Note")) {
+            map.addAttribute("errorMessage", errorMessage);
+        } else {
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                List<VisualisationObject> list = parseVisual.getVisualisationObjectFromJsonString(jsonString, mapper);
+                map.addAttribute("list", list);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return "index";
+    }
+
+    @SuppressWarnings("Duplicates")
+    @PostMapping(params = "week", value = "/")
+    private String displayWeeklyChart(@ModelAttribute CurrencyData currencyData, ModelMap map) {
+        map.addAttribute("currencyData", currencyData);
+        map.addAttribute("choice1", currencyData.getPool().get(currencyData.getChoice1()));
+        map.addAttribute("choice2", currencyData.getPool().get(currencyData.getChoice2()));
+        map.addAttribute("realtime", currencyData.getRealtime());
+        String call = visualisationData.getJsonCallForWeeklyChanges(currencyData);
+        String jsonString = restTemplate.getForObject(call, String.class);
+        if (jsonString.contains("Note")) {
+            map.addAttribute("errorMessage", errorMessage);
+        } else {
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                List<VisualisationObject> list = parseVisual.getVisualisationObjectFromJsonString(jsonString, mapper);
+                map.addAttribute("list", list);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return "index";
+    }
+
+    @SuppressWarnings("Duplicates")
+    @PostMapping(params = "month", value = "/")
+    private String displayMonthlyChart(@ModelAttribute CurrencyData currencyData, ModelMap map) {
+        map.addAttribute("currencyData", currencyData);
+        map.addAttribute("choice1", currencyData.getPool().get(currencyData.getChoice1()));
+        map.addAttribute("choice2", currencyData.getPool().get(currencyData.getChoice2()));
+        map.addAttribute("realtime", currencyData.getRealtime());
+        String call = visualisationData.getJsonCallForMonthlyChanges(currencyData);
+        String jsonString = restTemplate.getForObject(call, String.class);
+        if (jsonString.contains("Note")) {
+            map.addAttribute("errorMessage", errorMessage);
         } else {
             ObjectMapper mapper = new ObjectMapper();
             try {

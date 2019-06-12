@@ -59,6 +59,18 @@
             var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
             chart.draw(data, options);
 
+            var trendline = document.getElementById("hour");
+            trendline.style.display = "inline";
+
+            var trendline = document.getElementById("day");
+            trendline.style.display = "inline";
+
+            var trendline = document.getElementById("month");
+            trendline.style.display = "inline";
+
+            var trendline = document.getElementById("week");
+            trendline.style.display = "inline";
+
             var trendline = document.getElementById("trendline");
             trendline.style.display = "inline";
 
@@ -130,15 +142,29 @@
                     </button>
                 </div>
             </div>
+            <div class="d4">
+                <button type="submit" name="hour" class="button" id="hour">
+                    Hour
+                </button>
+                <button type="submit" name="day" class="button" id="day">
+                    Day
+                </button>
+                <button type="submit" name="week" class="button" id="week">
+                    Week
+                </button>
+                <button type="submit" name="month" class="button" id="month">
+                    Month
+                </button>
+            </div>
         </div>
     </form>
     <div class="diagram">
         <div id="chart_div" onchange="drawChart()">
             <div class="message"><span class="message" th:text="${errorMessage}"></span></div>
         </div>
-        <div class="trendbutton">
-            <button type="button" id="trendline">Trendline</button>
-        </div>
+    </div>
+    <div class="trendbutton">
+        <button type="button" id="trendline">Trendline</button>
     </div>
 </div>
 </body>

@@ -13,6 +13,7 @@ public class CurrencyData {
     private Map<String, String> pool = new HashMap<>();
     private String choice1;
     private String choice2;
+    private String realtime;
 
 
     public void exchangeChoices() {
@@ -44,11 +45,20 @@ public class CurrencyData {
     public CurrencyData() {
         RestTemplate restTemplate = new RestTemplate();
         setPool(getAvailableCurrencyForExchange(restTemplate));
+        setRealtime(" ");
     }
 
 
     //***********************************getters & setters*****************************************
 
+
+    public String getRealtime() {
+        return realtime;
+    }
+
+    public void setRealtime(String realtime) {
+        this.realtime = realtime;
+    }
 
     public Map<String, String> getPool() {
         return pool;
