@@ -35,18 +35,17 @@ public class HomeController {
 
     @PostMapping(params = "get_rate", value = "/")
     public String displayExchange(@ModelAttribute("currencyData") CurrencyData currencyData, ModelMap map) {
+        String json = currencyData.getStringForApiCallForCurrencyExchangeData();
+        String response = restTemplate.getForObject(json, String.class);
+        currencyData.setRealtime(parseRate.parseCurrentExchangeRateJson(response));
         map.addAttribute("currencyData", currencyData);
         map.addAttribute("choice1", currencyData.getPool().get(currencyData.getChoice1()));
         map.addAttribute("choice2", currencyData.getPool().get(currencyData.getChoice2()));
-        String json = currencyData.getStringForApiCallForCurrencyExchangeData();
-        String response = restTemplate.getForObject(json, String.class);
 
         if (currencyData.getChoice1().isEmpty() || currencyData.getChoice2().isEmpty()
                 || response.contains("error")) {
             return "error";
         } else {
-            currencyData.setRealtime(parseRate.parseCurrentExchangeRateJson(response));
-            map.addAttribute("realtime", currencyData.getRealtime());
             return displayChart(currencyData, map);
         }
     }
@@ -64,7 +63,6 @@ public class HomeController {
         map.addAttribute("currencyData", currencyData);
         map.addAttribute("choice1", currencyData.getPool().get(currencyData.getChoice1()));
         map.addAttribute("choice2", currencyData.getPool().get(currencyData.getChoice2()));
-        map.addAttribute("realtime", currencyData.getRealtime());
         String call = visualisationData.getJsonCallForHourlyChanges(currencyData);
         String jsonString = restTemplate.getForObject(call, String.class);
         if (jsonString.contains("Error Message")) {
@@ -96,7 +94,6 @@ public class HomeController {
         map.addAttribute("currencyData", currencyData);
         map.addAttribute("choice1", currencyData.getPool().get(currencyData.getChoice1()));
         map.addAttribute("choice2", currencyData.getPool().get(currencyData.getChoice2()));
-        map.addAttribute("realtime", currencyData.getRealtime());
         String call = visualisationData.getJsonCallForDailyChanges(currencyData);
         String jsonString = restTemplate.getForObject(call, String.class);
         if (jsonString.contains("Note")) {
@@ -119,7 +116,6 @@ public class HomeController {
         map.addAttribute("currencyData", currencyData);
         map.addAttribute("choice1", currencyData.getPool().get(currencyData.getChoice1()));
         map.addAttribute("choice2", currencyData.getPool().get(currencyData.getChoice2()));
-        map.addAttribute("realtime", currencyData.getRealtime());
         String call = visualisationData.getJsonCallForWeeklyChanges(currencyData);
         String jsonString = restTemplate.getForObject(call, String.class);
         if (jsonString.contains("Note")) {
@@ -142,7 +138,6 @@ public class HomeController {
         map.addAttribute("currencyData", currencyData);
         map.addAttribute("choice1", currencyData.getPool().get(currencyData.getChoice1()));
         map.addAttribute("choice2", currencyData.getPool().get(currencyData.getChoice2()));
-        map.addAttribute("realtime", currencyData.getRealtime());
         String call = visualisationData.getJsonCallForMonthlyChanges(currencyData);
         String jsonString = restTemplate.getForObject(call, String.class);
         if (jsonString.contains("Note")) {

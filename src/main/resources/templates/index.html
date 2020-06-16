@@ -132,7 +132,7 @@
             <div class="d2">
                 <div>
                     <span class="txt">Real-time exchange rate: </span>
-                    <div class="real"><span class="info" th:text="${realtime}"></span></div>
+                    <div class="real"><span class="info" th:text="${currencyData.getRealtime()}"></span></div>
                 </div>
                 <div class="d3">
                     <span class="currency" th:text="${currencyData.getChoice1()}" id="currency1"></span>
